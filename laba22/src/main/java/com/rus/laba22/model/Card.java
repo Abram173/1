@@ -3,17 +3,22 @@ package com.rus.laba22.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "cards", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "number")
+})
 public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String number;
 
+    @Column(nullable = false)
     private boolean blocked = false;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Account account;
 
     public Long getId() {

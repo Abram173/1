@@ -1,0 +1,639 @@
+{
+  "info": {
+    "name": "Банковский REST API",
+    "description": "Коллекция запросов для лабораторной работы по REST API. Содержит CRUD-операции для клиентов, счетов, карт и транзакций, а также бизнес-операции банка.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "customerId",
+      "value": "1"
+    },
+    {
+      "key": "accountId",
+      "value": "1"
+    },
+    {
+      "key": "secondAccountId",
+      "value": "2"
+    },
+    {
+      "key": "cardId",
+      "value": "1"
+    },
+    {
+      "key": "transactionId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Клиенты",
+      "description": "CRUD-операции для сущности Customer",
+      "item": [
+        {
+          "name": "Создать клиента",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Иван\",\n  \"lastName\": \"Иванов\",\n  \"email\": \"ivanov@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Создание нового клиента банка"
+          }
+        },
+        {
+          "name": "Получить всех клиентов",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customers"
+              ]
+            },
+            "description": "Получение списка всех клиентов"
+          }
+        },
+        {
+          "name": "Получить клиента по ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "{{customerId}}"
+              ]
+            },
+            "description": "Получение клиента по идентификатору"
+          }
+        },
+        {
+          "name": "Изменить клиента",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Пётр\",\n  \"lastName\": \"Петров\",\n  \"email\": \"petrov@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "{{customerId}}"
+              ]
+            },
+            "description": "Обновление данных клиента"
+          }
+        },
+        {
+          "name": "Удалить клиента",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/customers/{{customerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "customers",
+                "{{customerId}}"
+              ]
+            },
+            "description": "Удаление клиента по идентификатору"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Счета",
+      "description": "CRUD-операции для сущности Account",
+      "item": [
+        {
+          "name": "Создать счёт",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"ACC-100001\",\n  \"balance\": 1500.00,\n  \"customer\": {\n    \"id\": {{customerId}}\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "accounts"
+              ]
+            },
+            "description": "Создание нового банковского счёта"
+          }
+        },
+        {
+          "name": "Получить все счета",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "accounts"
+              ]
+            },
+            "description": "Получение списка всех счетов"
+          }
+        },
+        {
+          "name": "Получить счёт по ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "{{accountId}}"
+              ]
+            },
+            "description": "Получение счёта по идентификатору"
+          }
+        },
+        {
+          "name": "Изменить счёт",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"ACC-100001-UPDATED\",\n  \"balance\": 2500.00,\n  \"customer\": {\n    \"id\": {{customerId}}\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "{{accountId}}"
+              ]
+            },
+            "description": "Обновление данных счёта"
+          }
+        },
+        {
+          "name": "Удалить счёт",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/accounts/{{accountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "{{accountId}}"
+              ]
+            },
+            "description": "Удаление счёта по идентификатору"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Карты",
+      "description": "CRUD-операции для сущности Card",
+      "item": [
+        {
+          "name": "Создать карту",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"4111111111111111\",\n  \"blocked\": false,\n  \"account\": {\n    \"id\": {{accountId}}\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cards",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cards"
+              ]
+            },
+            "description": "Создание банковской карты"
+          }
+        },
+        {
+          "name": "Получить все карты",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cards",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cards"
+              ]
+            },
+            "description": "Получение списка всех карт"
+          }
+        },
+        {
+          "name": "Получить карту по ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cards/{{cardId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}"
+              ]
+            },
+            "description": "Получение карты по идентификатору"
+          }
+        },
+        {
+          "name": "Изменить карту",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"4222222222222222\",\n  \"blocked\": true,\n  \"account\": {\n    \"id\": {{accountId}}\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cards/{{cardId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}"
+              ]
+            },
+            "description": "Обновление данных карты"
+          }
+        },
+        {
+          "name": "Удалить карту",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/cards/{{cardId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cards",
+                "{{cardId}}"
+              ]
+            },
+            "description": "Удаление карты по идентификатору"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Транзакции",
+      "description": "CRUD-операции для сущности Transaction",
+      "item": [
+        {
+          "name": "Создать транзакцию",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccount\": {\n    \"id\": {{accountId}}\n  },\n  \"toAccount\": {\n    \"id\": {{secondAccountId}}\n  },\n  \"amount\": 300.00,\n  \"createdAt\": \"2026-03-10T12:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions"
+              ]
+            },
+            "description": "Создание транзакции вручную"
+          }
+        },
+        {
+          "name": "Получить все транзакции",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions"
+              ]
+            },
+            "description": "Получение списка всех транзакций"
+          }
+        },
+        {
+          "name": "Получить транзакцию по ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions",
+                "{{transactionId}}"
+              ]
+            },
+            "description": "Получение транзакции по идентификатору"
+          }
+        },
+        {
+          "name": "Изменить транзакцию",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccount\": {\n    \"id\": {{accountId}}\n  },\n  \"toAccount\": {\n    \"id\": {{secondAccountId}}\n  },\n  \"amount\": 450.00,\n  \"createdAt\": \"2026-03-10T13:30:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions",
+                "{{transactionId}}"
+              ]
+            },
+            "description": "Обновление транзакции"
+          }
+        },
+        {
+          "name": "Удалить транзакцию",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/transactions/{{transactionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "transactions",
+                "{{transactionId}}"
+              ]
+            },
+            "description": "Удаление транзакции по идентификатору"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Бизнес-операции",
+      "description": "Операции прикладной логики банка",
+      "item": [
+        {
+          "name": "Открыть счёт клиенту",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": {{customerId}},\n  \"accountNumber\": \"ACC-BUSINESS-001\",\n  \"initialBalance\": 5000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/operations/open-account",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "operations",
+                "open-account"
+              ]
+            },
+            "description": "Открытие нового счёта для существующего клиента"
+          }
+        },
+        {
+          "name": "Выпустить карту к счёту",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": {{accountId}},\n  \"cardNumber\": \"5333444455556666\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/operations/issue-card",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "operations",
+                "issue-card"
+              ]
+            },
+            "description": "Выпуск банковской карты для существующего счёта"
+          }
+        },
+        {
+          "name": "Пополнить счёт",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/operations/deposit/{{accountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "operations",
+                "deposit",
+                "{{accountId}}"
+              ]
+            },
+            "description": "Пополнение баланса выбранного счёта"
+          }
+        },
+        {
+          "name": "Снять деньги со счёта",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 250.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/operations/withdraw/{{accountId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "operations",
+                "withdraw",
+                "{{accountId}}"
+              ]
+            },
+            "description": "Списание средств со счёта"
+          }
+        },
+        {
+          "name": "Перевести деньги между счетами",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccountId\": {{accountId}},\n  \"toAccountId\": {{secondAccountId}},\n  \"amount\": 700.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/operations/transfer",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "operations",
+                "transfer"
+              ]
+            },
+            "description": "Перевод денег с одного счёта на другой"
+          }
+        }
+      ]
+    }
+  ]
+}
