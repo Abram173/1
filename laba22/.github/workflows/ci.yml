@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  JAVA_VERSION: '17'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and test
+        run: ./mvnw -B package
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: laba22-jar
+          path: target/*.jar
+          retention-days: 30
+
+  run-with-https:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && secrets.SSL_KEY_STORE_BASE64 != '' && secrets.SSL_KEY_STORE_PASSWORD != ''
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Decode keystore from secret
+        env:
+          SSL_KEY_STORE_BASE64: ${{ secrets.SSL_KEY_STORE_BASE64 }}
+        run: |
+          mkdir -p keystore
+          echo "$SSL_KEY_STORE_BASE64" | base64 -d > keystore/bank-server.p12
+
+      - name: Build JAR
+        run: ./mvnw -B package
+
+      - name: Run with HTTPS (smoke)
+        env:
+          SSL_KEY_STORE_PASSWORD: ${{ secrets.SSL_KEY_STORE_PASSWORD }}
+        run: |
+          export SSL_KEY_STORE=file:./keystore/bank-server.p12
+          timeout 45 ./mvnw -B spring-boot:run -Dspring-boot.run.profiles=tls -Dserver.ssl.key-store=$SSL_KEY_STORE -Dserver.ssl.key-store-password=$SSL_KEY_STORE_PASSWORD &
+          sleep 25
+          curl -k -s -o /dev/null -w "%{http_code}" https://127.0.0.1:8443/api/auth/csrf || echo "000"
