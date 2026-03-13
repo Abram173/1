@@ -32,6 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-### Lab 6: certs and keystore (do not commit) ###
-certs/
+### Lab 6: keystore для CI (не коммитить) ###
 keystore/
+### Сертификат по заданию — в репо (в интернете) ###
+!src/main/resources/certs/
+!src/main/resources/certs/**
+certs/
